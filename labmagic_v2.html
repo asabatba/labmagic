@@ -1,0 +1,200 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF8">
+    <script src="chroma.min.js"></script>
+    <style>
+        #sliderDiv {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            flex-direction: row;
+        }
+
+        #sliderDiv input {
+            width: 50%;
+        }
+
+        .luminosity {
+            width: 20%;
+            font-family: Consolas, monospace;
+        }
+
+        #container {
+            /* grid-template-columns: repeat(5,1fr); */
+
+            overflow: visible;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            align-content: space-around;
+        }
+
+        #container div {
+
+            width: 3%;
+            height: 3%;
+            padding: 0.3% 0.6%;
+            margin: 0.1% 0.3%;
+            /* float:left; */
+            /* border: 1px solid #00000080; */
+            border-radius: 4px;
+            text-align: center;
+            font-size: 7pt;
+            word-wrap: break-word;
+            font-family: iosevka, consolas, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sliderDiv">
+
+    </div>
+    <div id="container">
+
+    </div>
+
+    <script>
+
+        const sliderDiv = document.getElementById('sliderDiv');
+
+        //<input type="range" id="luminosity" name="luminosity" min="0" max="100" >
+        const slider = document.createElement('input');
+        sliderDiv.appendChild(slider);
+        slider.type = 'range';
+        slider.step = 'any';
+        slider.id = 'luminosity';
+        slider.name = 'luminosity';
+        slider.min = 0.01;
+        slider.max = 105;
+
+        const num = document.createElement('div');
+        num.classList.add('luminosity');
+        sliderDiv.appendChild(num);
+
+        slider.oninput = (ev) => {
+            const container = document.getElementById('container');
+            while (container.firstChild != null) {
+                container.removeChild(container.firstChild);
+            }
+            console.log(ev.target.value);
+            const lum = parseFloat(event.target.value);
+            render({ l: lum });
+            num.innerText = `L = ${lum.toFixed(1)}`;
+        }
+
+        const addDiv = function (color) {
+            const div = document.createElement('div');
+            div.innerText = color;
+            div.title = chroma(color).lab();
+            div.style.background = color;
+            //                        if (chroma(color).get('lab.l') < 50) {
+            if (chroma.distance(color, 'black') < chroma.distance(color, 'white')) {
+                div.style.color = 'white';
+            }
+            document.getElementById("container").appendChild(div);
+            return div;
+        };
+
+        Math.geomean = function (array) {
+
+            let mul = 1;
+            // console.log(array);
+            for (const num of array) {
+                mul *= num;
+            }
+            return Math.pow(mul, 1 / array.length);
+
+        }
+
+        function randomColor(type = 'hsl') {
+            if (type == 'rgb') {
+                const r = Math.random() * 255;
+                const g = Math.random() * 255;
+                const b = Math.random() * 255;
+                return chroma.rgb(r, g, b).set('hsl.s', 0.7).set('hsl.l', 0.8);
+            } else if (type == 'hsl') {
+                const h = Math.random() * 360;
+                const s = Math.random() * 0.3 + 0.4;
+                const l = Math.random() * 0.1 + 0.7;
+                return chroma.hsl(h, s, l);
+            } else {
+                const L = Math.random() * 50 + 50;
+                const a = Math.random() * 120 - 60;
+                const b = Math.random() * 120 - 60;
+                return chroma.lab(L, a, b);
+            }
+        }
+
+        function computeDistances(colors) {
+
+            for (const c1 of colors) {
+                c1.score = 0;
+                const tmp = [];
+                for (const c2 of colors) {
+                    if (c1 == c2) continue;
+                    // c1.score += Math.sqrt(chroma.distance(c1.c, c2.c));
+                    tmp.push(chroma.distance(c1.c, c2.c));
+                }
+                //                c1.score = Math.geomean(tmp);
+                //                c1.score = Math.min(...tmp);
+                // c1.score = Math.max(...tmp);
+                c1.score = Math.min(...tmp) * Math.max(...tmp);
+            }
+            return colors;
+        }
+
+        function render(props) {
+            props = props || {};
+            const numColors = 32;
+            const iterations = 20000;
+            // const kValue = 10;
+            const colors = [];
+
+            const initialColors = ['#392D21', '#5A4833', '#2C2524', '#F4F4EF', '#56504C', '#C0DBE6', '#8F7853', '#29505A', '#8D9492', '#558FA7'];
+
+            for (c of initialColors) {
+                //            addDiv(c);
+            }
+
+            // scaleMode
+            if (false) {
+                const cmap = chroma.scale(['FF0000', '00FF00', '0000FF']).mode('lab');
+
+                for (c of cmap.colors(20)) {
+                    //            addDiv(c);
+                }
+
+                for (c of cmap.colors(30)) {
+                    addDiv(chroma(c).set('lab.l', 80).set('hsv.s', 0.6));
+                }
+            }
+
+            const setL = props.l || 75;
+            const rangeAbList = [80, 60, 40, 60];
+            const rangeA = [-128, 128];
+            const rangeB = [-128, 128];
+
+            for (let a = rangeA[0]; a <= rangeA[1]; a += (rangeA[1] - rangeA[0]) / 19) {
+                for (let b = rangeB[0]; b <= rangeB[1]; b += (rangeB[1] - rangeB[0]) / 19) {
+                    const col = chroma.lab(setL, a, b);
+
+                    addDiv(col);
+                }
+            }
+        }
+        render();
+    </script>
+
+</body>
+
+</html>

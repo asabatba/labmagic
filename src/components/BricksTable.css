@@ -1,0 +1,25 @@
+.color-bricks-table {
+    width: 70vw;
+    /* height: 100%; */
+    font-family: iosevka, Consolas, monospace;
+    font-size: 9pt;
+}
+
+.color-bricks-table tbody tr {
+    width: 100%;
+    /* height: 100%; */
+}
+
+.color-bricks-table tbody tr td {
+    border: 1px solid white;
+    padding: 2px;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.color-bricks-table tbody tr td.saved {
+    border-color: red;
+    font-weight: bold;
+}
