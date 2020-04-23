@@ -1,5 +1,11 @@
-input.slider {
-    width: 60%;
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
 }
 
 .wrong-value {
@@ -12,23 +18,22 @@ input.slider {
     justify-content: center;
     padding: 1em;
 }
+
 .hexInputContainer input {
     font-size: 24pt;
     font-family: monospace;
     text-align: center;
-    outline:none;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    background-color: #003144;
+    color: white;
 }
 
 .slider-div {
     justify-content: space-between;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
+.slider-div input {
+    width: 80%;
 }

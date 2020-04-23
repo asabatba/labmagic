@@ -143,7 +143,7 @@ function SavedColors({ savedColors, setSavedColors, setLightness, setACenter, se
         </animated.div>));
 
     return (
-        <div>
+        <div class="saved-container">
             <SavedGraph savedColors={savedColors}></SavedGraph>
             <div className="saved-colors">
                 {transitions}

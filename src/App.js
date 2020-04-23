@@ -19,12 +19,12 @@ function App() {
       <header className="App-header">
       </header>
       <div className="App-body">
-        <div className="body-left">
+        {/* <div className="body-left"> */}
           <ColorBricks lightness={lightness} setLightness={setLightness} aCenter={aCenter} setACenter={setACenter} bCenter={bCenter} setBCenter={setBCenter} savedColors={savedColors} setSavedColors={setSavedColors} range={range} setRange={setRange}></ColorBricks>
-        </div>
-        <div className="body-right">
+        {/* </div> */}
+        {/* <div className="body-right"> */}
           <SavedColors savedColors={savedColors} setSavedColors={setSavedColors} setLightness={setLightness} setACenter={setACenter} setBCenter={setBCenter}></SavedColors>
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );

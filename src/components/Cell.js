@@ -1,12 +1,13 @@
 
 import React from 'react';
+import chroma from 'chroma-js';
 import { blackOrWhite } from './SavedColors';
 
 
 function Cell({ color, savedColors, setSavedColors, borderColor }) {
 
-    const text = blackOrWhite(color);
-    // chroma.distance(color, '#000') < chroma.distance(color, '#fff') ? 'white' : 'black';
+    // const textColor = blackOrWhite(color);
+    const textColor = chroma(blackOrWhite(color)).alpha(0.7).hex();
 
     const thisHex = color.hex();
 
@@ -21,7 +22,7 @@ function Cell({ color, savedColors, setSavedColors, borderColor }) {
         }
     }
     // className={alreadySaved ? "saved" : "not-saved"}
-    return (<td onClick={handleClick} style={{ color: text, backgroundColor: color.hex(), borderColor: alreadySaved ? (borderColor) : 'transparent' }}>
+    return (<td onClick={handleClick} style={{ color: textColor, backgroundColor: color.hex(), borderColor: alreadySaved ? (borderColor) : 'transparent' }}>
         {color.hex()}
     </td>)
 }

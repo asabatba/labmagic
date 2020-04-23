@@ -1,0 +1,6 @@
+.panel-and-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex: 2;
+}

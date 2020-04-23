@@ -25,7 +25,7 @@ function ColorBricks({ lightness, setLightness, savedColors, setSavedColors, aCe
     const [centerHex, setCenterHex] = useState(chroma('#000'));
 
 
-    return (<div>
+    return (<div className="panel-and-table">
         <ControlPanel setCenterHex={setCenterHex} setLightness={setLightness} setACenter={setACenter} setBCenter={setBCenter} setRange={setRange} aCenter={aCenter} bCenter={bCenter} lightness={lightness} range={range}></ControlPanel>
         <div style={{ height: '6px' }}></div>
         <BricksTable chromaMatrix={chromaMatrix} savedColors={savedColors} setSavedColors={setSavedColors} centerHex={centerHex}></BricksTable>
