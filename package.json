@@ -7,19 +7,22 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "chroma-js": "^2.1.0",
+    "ionicons": "^5.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
     "react-scripts": "3.4.1",
     "react-spring": "^8.0.27",
-    "serve": "^11.3.0",
-    "vis-network": "^7.6.1"
+    "serve": "^11.3.2",
+    "vis-network": "^7.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "npx serve -s build"
+    "serve": "serve -s build",
+    "pro": "npm run build && serve -l $PORT -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
