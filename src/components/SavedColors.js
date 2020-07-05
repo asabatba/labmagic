@@ -1,6 +1,6 @@
 
 import chroma from 'chroma-js';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoIosCloseCircleOutline, IoIosSearch } from 'react-icons/io';
 import { animated, useTransition } from 'react-spring';
 import { DataSet, Network } from 'vis-network/standalone/esm/vis-network';
@@ -21,7 +21,7 @@ function SavedGraph({ savedColors }) {
 
     // const [distances, setDistances] = useState([]);
 
-    const color2node = (c) => ({ id: c, color: c });
+    const color2node = (c) => ({ id: c, color: c, label: c });
     const colors2edge = (c1, c2) => {
         const dist = chroma.distance(c1, c2);
         // const contrast = chroma.contrast(c1,c2);
@@ -58,32 +58,93 @@ function SavedGraph({ savedColors }) {
             ));
     }, []);
 
+    const [savedNetwork, setSavedNetwork] = useState({ nodesToRemove: [], nodesToAdd: [], edgesToRemove: [], edgesToAdd: [], nodesTable: [], edgesTable: [] });
+
+    useEffect(() => {
+        setSavedNetwork((old) => {
+            console.log('computing network...')
+            // const nodesToRemove = data.current.nodes.getIds().filter((id) => !savedColors.includes(id));
+            const nodesTable = [...old.nodesTable];
+            const edgesTable = [...old.edgesTable];
+
+            const edgesToAdd = [], edgesToRemove = [];
+
+            const nodesToRemove = old.nodesTable
+                .filter((n) => !savedColors.includes(n.id));
+
+            const nodesToAdd = savedColors
+                .filter((c) => !old.nodesTable.find((n) => n.id === c))
+                .map(c => {
+                    const n = color2node(c);
+                    nodesTable.push(n);
+                    return n;
+                });
+
+
+            nodesToRemove.forEach((n) => {
+                old.edgesTable.forEach((e) => {
+                    if (e.from === n.id || e.to === n.id) {
+                        edgesToRemove.push(e);
+                        edgesTable.splice(edgesTable.findIndex(edge => edge === e), 1);
+                    }
+                });
+                nodesTable.splice(nodesTable.findIndex(node => n === node), 1);
+            });
+
+            for (let i = 0; i < nodesTable.length; i++) {
+                const ni = nodesTable[i];
+                for (let j = 0; j < i; j++) {
+                    const nj = nodesTable[j];
+                    // const edges =
+                    // nodesTable
+                    //     .filter(n2 => n !== n2)
+                    //     .map((oldNode) => colors2edge(oldNode.id, n.id))
+                    //     .slice(0, 3);
+                    const edge = colors2edge(ni.id, nj.id);
+                    if (edge._dist > 50) { continue; }
+                    if (edgesTable.find(e =>
+                        (e.from === ni.id && e.to === nj.id) ||
+                        (e.to === ni.id && e.from === nj.id)
+                    )) { continue; }
+
+                    edgesToAdd.push(edge);
+                    edgesTable.push(edge);
+                }
+            }
+
+            return {
+                nodesToRemove, nodesToAdd,
+                edgesToRemove, edgesToAdd,
+                nodesTable, edgesTable
+            };
+        });
+    }, [savedColors]);
+
+    console.log(savedNetwork);
+
     // Reload changes in savedColors.
     useEffect(() => {
 
-        const toRemove = data.current.nodes.getIds().filter((id) => !savedColors.includes(id));
-        const toAdd = savedColors.filter((c) => data.current.nodes.get(c) == null);
-        console.log(toRemove, toAdd);
+        const { nodesToAdd, nodesToRemove, edgesToAdd, edgesToRemove } = savedNetwork;
 
-        toRemove.forEach((nid) => {
-            data.current.edges.forEach((e) => {
-                if (e.from === nid || e.to === nid) {
-                    data.current.edges.remove(e);
-                }
-            });
-            data.current.nodes.remove(nid);
-        });
-        toAdd.forEach((c) => {
-            const edges = data.current.nodes.map((n) => colors2edge(n.id, c))
-            // .sort((a, b) => a._dist - b._dist).slice(0, 2)
-            // Closest 2 per node method.
-
-            data.current.nodes.add(color2node(c));
-            data.current.edges.add(edges);
-            //data.current.edges.
+        nodesToAdd.forEach((n) => {
+            console.log('node', n);
+            data.current.nodes.add(n);
         });
 
-        // All-average method.
+        nodesToRemove.forEach((n) => {
+            data.current.nodes.remove(n.id);
+        });
+
+        edgesToAdd.forEach((e) => {
+            data.current.edges.add(e);
+        });
+
+        edgesToRemove.forEach((e) => {
+            data.current.edges.remove(e.id);
+        });
+
+        // All-average method. Costly somehow.
         // eslint-disable-next-line
         if (1 === 0) {
             const edges = data.current.edges.get();
@@ -104,22 +165,20 @@ function SavedGraph({ savedColors }) {
 
         // data.current.nodes.update(savedColors.map((c) => ({ id: c, color: c })));
 
-    }, [savedColors]);
+    }, [savedNetwork]);
 
     return <div className="container-graph" ref={container}></div>
 }
 
 function Brick({ hex, savedColors, setSavedColors, setLightness, setACenter, setBCenter }) {
 
-    const handleDelete = (ev) => {
+    const handleDelete = () => {
         setSavedColors(savedColors.filter((c) => c !== hex));
     };
 
-    const handleSearch = (ev) => {
+    const handleSearch = () => {
         const chr = chroma(hex);
         const lab = chr.lab();
-        // setLightness(chroma(hex).get('lab.l'));
-        // console.log(lab);
         setLightness(lab[0]);
         setACenter(lab[1]);
         setBCenter(lab[2]);
