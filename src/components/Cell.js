@@ -22,7 +22,7 @@ function Cell({ color, savedColors, setSavedColors, borderColor }) {
         }
     }
     // className={alreadySaved ? "saved" : "not-saved"}
-    return (<td onClick={handleClick} style={{ color: textColor, backgroundColor: color.hex(), borderColor: alreadySaved ? (borderColor) : 'transparent' }}>
+    return (<td onClick={handleClick} style={{ borderRadius: '2px', textAlign: 'center', color: textColor, backgroundColor: color.hex(), borderColor: alreadySaved ? (borderColor) : 'transparent' }}>
         {color.hex()}
     </td>)
 }

@@ -1,6 +1,7 @@
 
 import chroma from 'chroma-js';
 import React, { useEffect, useRef } from 'react';
+import { IoIosCloseCircleOutline, IoIosSearch } from 'react-icons/io';
 import { animated, useTransition } from 'react-spring';
 import { DataSet, Network } from 'vis-network/standalone/esm/vis-network';
 import './SavedColors.css';
@@ -84,7 +85,7 @@ function SavedGraph({ savedColors }) {
 
         // All-average method.
         // eslint-disable-next-line
-        if (1 === 1) {
+        if (1 === 0) {
             const edges = data.current.edges.get();
             const avg = edges.reduce((acc, e) => acc + e._dist, 0) / edges.length;
             // console.log(dists, avg);
@@ -110,20 +111,32 @@ function SavedGraph({ savedColors }) {
 
 function Brick({ hex, savedColors, setSavedColors, setLightness, setACenter, setBCenter }) {
 
-    const handleDoubleClick = (ev) => {
+    const handleDelete = (ev) => {
         setSavedColors(savedColors.filter((c) => c !== hex));
     };
 
-    const handleClick = (ev) => {
-        const lab = chroma(hex).lab();
+    const handleSearch = (ev) => {
+        const chr = chroma(hex);
+        const lab = chr.lab();
         // setLightness(chroma(hex).get('lab.l'));
-        console.log(lab);
+        // console.log(lab);
         setLightness(lab[0]);
         setACenter(lab[1]);
         setBCenter(lab[2]);
     }
 
-    return (<div title="doble click para eliminar este color" onClick={handleClick} onDoubleClick={handleDoubleClick} className="brick" style={{ backgroundColor: hex, color: blackOrWhite(hex) }}>{hex}</div>)
+    const borw = blackOrWhite(hex);
+
+    return (<div>
+        <div className="brick flex-col items-center" style={{ backgroundColor: hex, color: borw }}>
+            <div>{hex}</div>
+            <div style={{ marginTop: '0.5rem' }} className="flex-row">
+                <button onClick={handleSearch}><IoIosSearch /></button>
+                <div style={{ width: '0.1rem' }}></div>
+                <button onClick={handleDelete}><IoIosCloseCircleOutline /></button>
+            </div>
+        </div>
+    </div>)
 }
 
 function SavedColors({ savedColors, setSavedColors, setLightness, setACenter, setBCenter }) {
@@ -135,7 +148,7 @@ function SavedColors({ savedColors, setSavedColors, setLightness, setACenter, se
 
     const transitions = useTransition(bricks, item => item.key, {
         from: { transform: 'scale(0) rotate(-10deg)', opacity: 0.5, },
-        enter: { transform: 'scale(1) rotate(5deg)', opacity: 1.0, },
+        enter: { transform: 'scale(1) rotate(0deg)', opacity: 1.0, },
         leave: { transform: 'scale(0) rotate(-10deg)', opacity: 0.5, },
     }).map(({ item, props, key }) => (
         <animated.div key={key} style={props}>
@@ -143,7 +156,7 @@ function SavedColors({ savedColors, setSavedColors, setLightness, setACenter, se
         </animated.div>));
 
     return (
-        <div class="saved-container">
+        <div className="saved-container">
             <SavedGraph savedColors={savedColors}></SavedGraph>
             <div className="saved-colors">
                 {transitions}
