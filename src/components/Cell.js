@@ -1,16 +1,13 @@
 
-import React from 'react';
 import chroma from 'chroma-js';
-import { blackOrWhite } from './SavedColors';
-
+import React from 'react';
 
 function Cell({ color, savedColors, setSavedColors, borderColor }) {
 
-    // const textColor = blackOrWhite(color);
-    const textColor = chroma(blackOrWhite(color)).alpha(0.7).hex();
+    const blackOrWhiteContrast = (c) => chroma.contrast(c, 'white') > chroma.contrast(c, 'black') ? 'white' : 'black';
 
+    const textColor = chroma(blackOrWhiteContrast(color)).hex();
     const thisHex = color.hex();
-
     const alreadySaved = savedColors.includes(thisHex);
 
     const handleClick = (ev) => {
