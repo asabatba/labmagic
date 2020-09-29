@@ -30,7 +30,7 @@ function ColorBricks({ lightness, setLightness, savedColors, setSavedColors, aCe
         <div style={{ height: '6px' }}></div>
         <BricksTable chromaMatrix={chromaMatrix} savedColors={savedColors} setSavedColors={setSavedColors} centerHex={centerHex}></BricksTable>
 
-    </div>)
+    </div>);
 }
 
 export default ColorBricks;

@@ -17,11 +17,11 @@ function Cell({ color, savedColors, setSavedColors, borderColor }) {
         } else {
             setSavedColors(savedColors.concat(thisHex));
         }
-    }
+    };
     // className={alreadySaved ? "saved" : "not-saved"}
     return (<td onClick={handleClick} style={{ borderRadius: '2px', textAlign: 'center', color: textColor, backgroundColor: color.hex(), borderColor: alreadySaved ? (borderColor) : 'transparent' }}>
         {color.hex()}
-    </td>)
+    </td>);
 }
 
 export default Cell;

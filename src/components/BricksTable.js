@@ -20,7 +20,7 @@ function BricksTable({ chromaMatrix, savedColors, setSavedColors, centerHex }) {
                     )}
                 </tbody>
             </table>
-        </div>)
+        </div>);
 }
 
 export default BricksTable;

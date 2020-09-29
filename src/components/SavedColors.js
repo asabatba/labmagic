@@ -35,8 +35,8 @@ function SavedGraph({ savedColors }) {
             length: (dist) * 2 + 80,
             label: dist.toFixed(0),// + '🥰',
             _dist: dist,
-        }
-    }
+        };
+    };
 
     // Initialize network.
     useEffect(() => {
@@ -62,7 +62,7 @@ function SavedGraph({ savedColors }) {
 
     useEffect(() => {
         setSavedNetwork((old) => {
-            console.log('computing network...')
+            console.log('computing network...');
             // const nodesToRemove = data.current.nodes.getIds().filter((id) => !savedColors.includes(id));
             const nodesTable = [...old.nodesTable];
             const edgesTable = [...old.edgesTable];
@@ -167,7 +167,7 @@ function SavedGraph({ savedColors }) {
 
     }, [savedNetwork]);
 
-    return <div className="container-graph" ref={container}></div>
+    return <div className="container-graph" ref={container}></div>;
 }
 
 function Brick({ hex, savedColors, setSavedColors, setLightness, setACenter, setBCenter }) {
@@ -182,7 +182,7 @@ function Brick({ hex, savedColors, setSavedColors, setLightness, setACenter, set
         setLightness(lab[0]);
         setACenter(lab[1]);
         setBCenter(lab[2]);
-    }
+    };
 
     const borw = blackOrWhite(hex);
 
@@ -195,7 +195,7 @@ function Brick({ hex, savedColors, setSavedColors, setLightness, setACenter, set
                 <button onClick={handleDelete}><IoIosCloseCircleOutline /></button>
             </div>
         </div>
-    </div>)
+    </div>);
 }
 
 function SavedColors({ savedColors, setSavedColors, setLightness, setACenter, setBCenter }) {
@@ -220,7 +220,7 @@ function SavedColors({ savedColors, setSavedColors, setLightness, setACenter, se
             <div className="saved-colors">
                 {transitions}
             </div>
-        </div>)
+        </div>);
 }
 
 export default SavedColors;

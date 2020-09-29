@@ -16,16 +16,16 @@ function ControlPanel({ setCenterHex, setLightness, setACenter, setBCenter, setR
 
     const handleLightnessChange = (ev) => {
         setLightness(parseFloat(ev.target.value));
-    }
+    };
     const handleAChange = (ev) => {
         setACenter(parseFloat(ev.target.value));
-    }
+    };
     const handleBChange = (ev) => {
         setBCenter(parseFloat(ev.target.value));
-    }
+    };
     const handleRangeChange = (ev) => {
         setRange(parseFloat(ev.target.value));
-    }
+    };
 
     const handleCenterChange = (ev) => {
         if (ev.key === 'Enter') {
@@ -39,7 +39,7 @@ function ControlPanel({ setCenterHex, setLightness, setACenter, setBCenter, setR
                 hexInput.current.classList.add('wrong-value');
             }
         }
-    }
+    };
 
     return (
         <div className="row">
@@ -65,7 +65,7 @@ function ControlPanel({ setCenterHex, setLightness, setACenter, setBCenter, setR
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default ControlPanel;
