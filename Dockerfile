@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM node:current-slim
+FROM node:16
 
 # Set the working directory.
 WORKDIR /usr/src/app
