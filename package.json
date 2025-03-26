@@ -22,7 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s build",
-    "pro": "npm run build && serve -l $PORT -s build"
+    "pro": "npm run build && serve -l 8080 -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
