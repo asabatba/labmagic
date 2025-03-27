@@ -1,0 +1,42 @@
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ESNext", // Use modern JavaScript features
+    "useDefineForClassFields": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "allowJs": false, // Or true if you mix JS and TS
+    "skipLibCheck": true,
+    "esModuleInterop": true, // Recommended for compatibility
+    "allowSyntheticDefaultImports": true,
+    "strict": true, // Enable strict type checking (recommended)
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext", // Use modern module system
+    "moduleResolution": "Bundler", // Or "NodeNext" - aligns with modern tooling
+    "resolveJsonModule": true,
+    "isolatedModules": true, // Required by Vite/Babel
+    "noEmit": true, // Vite handles transpilation, tsc only type checks
+    "jsx": "react-jsx", // Use the new JSX transform
+    // Optional: Add path aliases if you used them in CRA (e.g., src/*)
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["src/*"]
+    // }
+  },
+  "include": [
+    "src",
+    "vite.config.ts"
+  ], // Include source files and Vite config
+  "exclude": [
+    "node_modules",
+    "dist"
+  ], // Exclude build output and dependencies
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ] // Separate config for Vite/ESLint config files
+}
