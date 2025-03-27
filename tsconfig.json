@@ -9,6 +9,7 @@
       "DOM.Iterable",
       "ESNext"
     ],
+    "noEmitOnError": false,
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
