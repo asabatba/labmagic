@@ -1,42 +1,44 @@
-// tsconfig.json
+// tsconfig.json (Your main configuration file)
 {
   "compilerOptions": {
-    "target": "ESNext", // Use modern JavaScript features
+    // ... your existing compiler options like:
+    "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": [
       "DOM",
       "DOM.Iterable",
       "ESNext"
     ],
-    "allowJs": false, // Or true if you mix JS and TS
+    "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": true, // Recommended for compatibility
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true, // Enable strict type checking (recommended)
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext", // Use modern module system
-    "moduleResolution": "Bundler", // Or "NodeNext" - aligns with modern tooling
+    "module": "ESNext",
+    "moduleResolution": "Bundler", // Or "NodeNext"
     "resolveJsonModule": true,
-    "isolatedModules": true, // Required by Vite/Babel
-    "noEmit": true, // Vite handles transpilation, tsc only type checks
-    "jsx": "react-jsx", // Use the new JSX transform
-    // Optional: Add path aliases if you used them in CRA (e.g., src/*)
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@/*": ["src/*"]
-    // }
+    "isolatedModules": true,
+    "noEmit": true, // Keep this as true!
+    "jsx": "react-jsx"
+    // ... any other options
   },
+  // --- Make this change ---
+  // Explicitly include only the 'src' directory for the main app check
   "include": [
-    "src",
-    "vite.config.ts"
-  ], // Include source files and Vite config
+    "src"
+  ],
+  // Optionally, be extra sure by excluding config files if 'include' was broader before
   "exclude": [
     "node_modules",
-    "dist"
-  ], // Exclude build output and dependencies
+    "dist",
+    "vite.config.ts",
+    "tsconfig.node.json"
+  ],
+  // --- Keep the reference ---
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  ] // Separate config for Vite/ESLint config files
+  ]
 }
